@@ -13,3 +13,31 @@ func spawn_shape():
 	shape.construct(shapes[randi()%shapes.size()])
 	shape.set_name("FallingBlock")
 	add_child(shape)
+
+func check_full_line():
+	var lines = []
+	for i in range(20):
+		lines.append([])
+	
+	# Per line, remember which blocks are on it.
+	for block in $SolidBlocks.get_children():
+		lines[block.pos.y - 1].append(block)
+	
+	# Check every line for a full line.
+	var line_index = 0
+	while line_index < lines.size():
+		if lines[line_index].size() == 10:
+			# Found a full line.
+			# Remove every block on this line.
+			for block in lines[line_index]:
+				$SolidBlocks.remove_child(block)
+				block.queue_free()
+			
+			# Move all lines above it one down.
+			#var move_line_index = line_index - 1
+			#while move_line_index >= 0:
+			#	for block in lines[move_line_index]:
+			#		block.pos.y += 1
+			#	
+			#	move_line_index -= 1
+		line_index += 1

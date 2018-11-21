@@ -61,14 +61,20 @@ func add_block(pos_, texture):
 
 func fall():
 	pos.y += 1
+	
 	if check_fall_collision():
 		update_position()
 		return true
+	
 	pos.y -= 1
 	solidify()
+	
 	get_parent().get_node("SpawnTimer").wait_time = $FallTimer.wait_time
 	get_parent().get_node("SpawnTimer").start()
+	get_parent().check_full_line()
+	
 	queue_free()
+	
 	return false
 
 func solidify():
