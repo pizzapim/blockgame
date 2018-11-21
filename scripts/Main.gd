@@ -4,7 +4,7 @@ var shape_scene = preload("res://scenes/Shape.tscn")
 
 func _ready():
 	var shape = shape_scene.instance()
-	shape.construct("l", Vector2(3, 3))
+	shape.construct("l")
 	shape.set_name("FallingBlock")
 	add_child(shape)
 	#var new_block = t_shape.instance()
