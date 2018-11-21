@@ -6,6 +6,7 @@ var block_scene = preload("res://scenes/Block.tscn")
 var texture_path = "res://assets/"
 
 func construct(type):
+	$FallTimer.wait_time = 0.2
 	if type == "i":
 		add_i_shape()
 	elif type == "z":
@@ -58,3 +59,64 @@ func add_block(pos_, texture):
 	block.construct(pos_)
 	block.texture = texture
 	$Blocks.add_child(block)
+
+func fall():
+	pos.y += 1
+	if check_floor_collision() and check_fall_block_collision():
+		update_position()
+	else:
+		pos.y -= 1
+		solidify()
+		get_parent().get_node("SpawnTimer").start()
+
+func solidify():
+	var solid_blocks = get_parent().get_node("SolidBlocks")
+	
+	for block in $Blocks.get_children():
+		$Blocks.remove_child(block)
+		block.pos += pos
+		block.update_position()
+		solid_blocks.add_child(block)
+	
+	queue_free()
+
+func _input(ev):
+	if Input.is_action_just_pressed("move_left"):
+		pos.x -= 1
+		if check_move_collision():
+			update_position()
+		else:
+			pos.x += 1
+	elif Input.is_action_just_pressed("move_right"):
+		pos.x += 1
+		if check_move_collision():
+			update_position()
+		else:
+			pos.x -= 1
+
+func check_fall_block_collision():
+	var solid_blocks = get_parent().get_node("SolidBlocks")
+	
+	for own_block in $Blocks.get_children():
+		for other_block in solid_blocks.get_children():
+			if pos.y + own_block.pos.y == other_block.pos.y && pos.x + own_block.pos.x == other_block.pos.x:
+				return false
+	return true
+
+func check_floor_collision():
+	for block in $Blocks.get_children():
+		if pos.y + block.pos.y == 21:
+			return false
+	return true
+
+func check_move_collision():
+	var solid_blocks = get_parent().get_node("SolidBlocks")
+	
+	for own_block in $Blocks.get_children():
+		if pos.x + own_block.pos.x == 0 || pos.x + own_block.pos.x == 11:
+			return false
+		else:
+			for other_block in solid_blocks.get_children():
+				if pos.y + own_block.pos.y == other_block.pos.y && pos.x + own_block.pos.x == other_block.pos.x:
+					return false
+	return true
