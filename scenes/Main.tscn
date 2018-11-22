@@ -9,7 +9,7 @@ script = ExtResource( 1 )
 
 [node name="UI" parent="." index="0" instance=ExtResource( 2 )]
 
-[node name="SolidBlocks" type="Node" parent="." index="1"]
+[node name="SolidBlocks" type="Node2D" parent="." index="1"]
 
 [node name="SpawnTimer" type="Timer" parent="." index="2"]
 

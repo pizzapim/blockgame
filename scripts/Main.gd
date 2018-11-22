@@ -34,10 +34,11 @@ func check_full_line():
 				block.queue_free()
 			
 			# Move all lines above it one down.
-			#var move_line_index = line_index - 1
-			#while move_line_index >= 0:
-			#	for block in lines[move_line_index]:
-			#		block.pos.y += 1
-			#	
-			#	move_line_index -= 1
+			var move_line_index = line_index - 1
+			while move_line_index >= 0:
+				for block in lines[move_line_index]:
+					block.pos.y += 1
+					block.update_position()
+				
+				move_line_index -= 1
 		line_index += 1
