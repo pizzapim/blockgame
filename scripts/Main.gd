@@ -14,6 +14,12 @@ func spawn_shape():
 	shape.set_name("FallingBlock")
 	shape.get_node("FallTimer").wait_time = $SpawnTimer.wait_time
 	add_child(shape)
+	
+	# Check if spawning the shape caused collision
+	if shape.any_collision():
+		remove_child(shape)
+		shape.queue_free()
+		get_node("UI/GameOverLabel").visible = true
 
 func check_full_line():
 	var lines = []
