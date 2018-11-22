@@ -41,4 +41,6 @@ func check_full_line():
 					block.update_position()
 				
 				move_line_index -= 1
+			
+			get_node("UI/ScoreCounter").text = str(int(get_node("UI/ScoreCounter").text) + 1)
 		line_index += 1
