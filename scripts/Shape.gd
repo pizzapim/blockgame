@@ -82,7 +82,6 @@ func fall():
 	pos.y -= 1
 	solidify()
 	
-	get_parent().get_node("SpawnTimer").wait_time = $FallTimer.wait_time
 	get_parent().get_node("SpawnTimer").start()
 	get_parent().check_full_line()
 	

@@ -12,6 +12,7 @@ func spawn_shape():
 	var shape = shape_scene.instance()
 	shape.construct(shapes[randi()%shapes.size()])
 	shape.set_name("FallingBlock")
+	shape.get_node("FallTimer").wait_time = $SpawnTimer.wait_time
 	add_child(shape)
 
 func check_full_line():
@@ -43,4 +44,5 @@ func check_full_line():
 				move_line_index -= 1
 			
 			get_node("UI/ScoreCounter").text = str(int(get_node("UI/ScoreCounter").text) + 1)
+			$SpawnTimer.wait_time *= 0.9
 		line_index += 1
